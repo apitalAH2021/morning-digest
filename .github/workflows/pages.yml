@@ -34,10 +34,14 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - name: Save digest preview
         env:
-          LANE_MARKER: ${{ inputs.lane_marker }}
+          PREVIEW_MARKER: ${{ inputs.lane_marker }}
         run: |
           mkdir -p dist
-          PORT=8787 pnpm start > /tmp/rig.log 2>&1 &
+          if [ -n "$PREVIEW_MARKER" ]; then
+            LANE_MARKER="$PREVIEW_MARKER" PORT=8787 pnpm start > /tmp/rig.log 2>&1 &
+          else
+            env -u LANE_MARKER PORT=8787 pnpm start > /tmp/rig.log 2>&1 &
+          fi
           for _ in {1..30}; do
             if curl --fail --silent http://127.0.0.1:8787/health >/dev/null; then
               break
