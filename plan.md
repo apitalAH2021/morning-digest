@@ -1,9 +1,8 @@
 ---
 plan: morning-digest
-status: done
+status: ready
 owner: rook
 opened: 2026-10-29
-closed: 2026-10-29
 ---
 
 # Morning digest
@@ -89,4 +88,4 @@ Done when: the preview link no longer shows the lane marker.
 | 4 | [Status board digest links](https://github.com/apitalAH2021/morning-digest/issues/4) | #1, #2 | Copilot App · Auto · unspecified | 2026-10-29 |
 | 5 | [Digest route tests](https://github.com/apitalAH2021/morning-digest/issues/5) | #2, #3 | Copilot App · Auto · unspecified | 2026-10-29 |
 | 6 | [Public preview](https://github.com/apitalAH2021/morning-digest/issues/6) | #1–#5 | Copilot App · Auto · unspecified | 2026-10-29 |
-| 7 | [Remove preview marker](https://github.com/apitalAH2021/morning-digest/issues/7) | #6 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 7 | [Remove preview marker](https://github.com/apitalAH2021/morning-digest/issues/7) | #6 | Copilot App · Auto · unspecified | — |
