@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-10-29
 ---
 
 # Morning digest
@@ -77,3 +78,15 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+| # | Issue | Blocked by | Worker | Closed |
+|---|-------|------------|--------|--------|
+| 1 | [Run log reader](https://github.com/apitalAH2021/morning-digest/issues/1) | — | Copilot App · Auto · unspecified | 2026-10-29 |
+| 2 | [Digest page](https://github.com/apitalAH2021/morning-digest/issues/2) | #1 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 3 | [Digest JSON API](https://github.com/apitalAH2021/morning-digest/issues/3) | #1 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 4 | [Status board digest links](https://github.com/apitalAH2021/morning-digest/issues/4) | #1, #2 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 5 | [Digest route tests](https://github.com/apitalAH2021/morning-digest/issues/5) | #2, #3 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 6 | [Public preview](https://github.com/apitalAH2021/morning-digest/issues/6) | #1–#5 | Copilot App · Auto · unspecified | 2026-10-29 |
+| 7 | [Remove preview marker](https://github.com/apitalAH2021/morning-digest/issues/7) | #6 | Copilot App · Auto · unspecified | 2026-10-29 |
