@@ -14,9 +14,13 @@ export function createApp(config: RigConfig = loadConfig()) {
 
   app.get('/digest/:night', (c) => {
     const night = c.req.param('night');
-    let digest;
     try {
-      digest = readNight(config.runsDir, night);
+      const digest = readNight(config.runsDir, night);
+      return c.html(
+        <Layout title={`digest ${night}`} lane={lane()}>
+          <DigestTable night={night} digest={digest} />
+        </Layout>,
+      );
     } catch (error) {
       if (
         error instanceof RangeError ||
@@ -26,12 +30,20 @@ export function createApp(config: RigConfig = loadConfig()) {
       }
       throw error;
     }
+  });
 
-    return c.html(
-      <Layout title={`digest ${night}`} lane={lane()}>
-        <DigestTable night={night} digest={digest} />
-      </Layout>,
-    );
+  app.get('/api/digest/:night', (c) => {
+    try {
+      return c.json(readNight(config.runsDir, c.req.param('night')));
+    } catch (error) {
+      if (
+        error instanceof RangeError ||
+        (error instanceof Error && 'code' in error && error.code === 'ENOENT')
+      ) {
+        return c.notFound();
+      }
+      throw error;
+    }
   });
 
   app.get('/', (c) =>
