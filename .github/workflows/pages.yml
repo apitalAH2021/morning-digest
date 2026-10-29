@@ -1,0 +1,54 @@
+name: Publish digest preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      lane_marker:
+        description: Marker shown on the public preview; leave empty to remove it.
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}digest-2026-10-28.html
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --no-frozen-lockfile
+      - name: Save digest preview
+        env:
+          LANE_MARKER: ${{ inputs.lane_marker }}
+        run: |
+          mkdir -p dist
+          PORT=8787 pnpm start > /tmp/rig.log 2>&1 &
+          for _ in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8787/health >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error http://127.0.0.1:8787/digest/2026-10-28 \
+            -o dist/digest-2026-10-28.html || { cat /tmp/rig.log; exit 1; }
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
