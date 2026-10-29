@@ -6,6 +6,13 @@ describe('night run reader', () => {
     const result = readNight('runs', '2026-10-28');
 
     expect(result.rows).toHaveLength(5);
+    expect(result.rows.map(({ job }) => job)).toEqual([
+      'digest/render',
+      'fixtures/refresh',
+      'lane/sync',
+      'notes/backup',
+      'rig/rotate-logs',
+    ]);
     expect(result.counts).toEqual({ ok: 10, retry: 4, fail: 1 });
     expect(result.malformedLines).toBe(1);
     expect(result.rows.find(({ job }) => job === 'lane/sync')).toEqual({
@@ -35,12 +42,8 @@ describe('night run reader', () => {
     });
   });
 
-  it('returns an empty result when the night file is missing', () => {
-    expect(readNight('runs', '2026-10-26')).toEqual({
-      rows: [],
-      counts: { ok: 0, retry: 0, fail: 0 },
-      malformedLines: 0,
-    });
+  it('propagates a missing night file for the route to report as 404', () => {
+    expect(() => readNight('runs', '2026-10-26')).toThrow();
   });
 
   it('rejects a night value that could escape the run directory', () => {

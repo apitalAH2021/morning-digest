@@ -55,13 +55,7 @@ export const readNight: ReadNight = (runsDir, night) => {
     throw new RangeError('night must resolve within runsDir');
   }
 
-  let contents: string;
-  try {
-    contents = readFileSync(file, 'utf8');
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return emptyResult();
-    throw error;
-  }
+  const contents = readFileSync(file, 'utf8');
 
   const lines = contents.split(/\r?\n/);
   if (lines.at(-1) === '') lines.pop();
@@ -112,6 +106,6 @@ export const readNight: ReadNight = (runsDir, night) => {
     }
   }
 
-  result.rows = [...rowsByJob.values()];
+  result.rows = [...rowsByJob.values()].sort((left, right) => left.job.localeCompare(right.job));
   return result;
 };
